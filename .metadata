@@ -1,0 +1,5 @@
+# This file tracks the Flutter project metadata.
+version:
+  revision: "generated-in-github-actions"
+  channel: "stable"
+project_type: app

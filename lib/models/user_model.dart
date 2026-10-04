@@ -1,1 +1,1 @@
-
+class UserModel { final String id,email,name,role; const UserModel({required this.id,required this.email,required this.name,required this.role}); Map<String,dynamic> toMap()=>{'email':email,'name':name,'role':role}; factory UserModel.fromMap(String id,Map<String,dynamic> m)=>UserModel(id:id,email:m['email']??'',name:m['name']??'',role:m['role']??'student'); }

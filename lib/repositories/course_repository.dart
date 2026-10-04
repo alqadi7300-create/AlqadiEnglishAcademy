@@ -1,1 +1,1 @@
-
+import '../models/course_model.dart'; import '../services/firestore_service.dart'; class CourseRepository { final FirestoreService service; CourseRepository({FirestoreService? service}):service=service??FirestoreService(); Stream<List<CourseModel>> watch()=>service.stream('courses').map((s)=>s.docs.map((d)=>CourseModel.fromMap(d.id,d.data())).toList()); Future<void> save(CourseModel c)=>service.setDoc('courses',c.id,c.toMap()); Future<void> delete(String id)=>service.deleteDoc('courses',id); }

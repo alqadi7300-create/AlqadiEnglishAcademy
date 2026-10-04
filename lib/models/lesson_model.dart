@@ -1,1 +1,1 @@
-
+class LessonModel { final String id,courseId,title,content; final int order; final bool required; const LessonModel({required this.id,required this.courseId,required this.title,required this.content,this.order=0,this.required=true}); Map<String,dynamic> toMap()=>{'courseId':courseId,'title':title,'content':content,'order':order,'required':required}; factory LessonModel.fromMap(String id,Map<String,dynamic> m)=>LessonModel(id:id,courseId:m['courseId']??'',title:m['title']??'',content:m['content']??'',order:m['order']??0,required:m['required']??true); }

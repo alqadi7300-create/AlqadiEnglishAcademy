@@ -1,1 +1,1 @@
-
+class StudentModel { final String id,name,email; final String? phone; const StudentModel({required this.id,required this.name,required this.email,this.phone}); Map<String,dynamic> toMap()=>{'name':name,'email':email,'phone':phone}; factory StudentModel.fromMap(String id,Map<String,dynamic> m)=>StudentModel(id:id,name:m['name']??'',email:m['email']??'',phone:m['phone']); }

@@ -1,1 +1,1 @@
-
+class ExamModel { final String id,courseId,title; final double passScore; final bool finalExam; const ExamModel({required this.id,required this.courseId,required this.title,this.passScore=60,this.finalExam=false}); Map<String,dynamic> toMap()=>{'courseId':courseId,'title':title,'passScore':passScore,'finalExam':finalExam}; factory ExamModel.fromMap(String id,Map<String,dynamic> m)=>ExamModel(id:id,courseId:m['courseId']??'',title:m['title']??'',passScore:(m['passScore']??60).toDouble(),finalExam:m['finalExam']??false); }

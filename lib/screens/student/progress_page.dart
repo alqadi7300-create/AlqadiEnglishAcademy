@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; import '../../widgets/progress_widget.dart'; class ProgressPage extends StatelessWidget { const ProgressPage({super.key}); @override Widget build(BuildContext c)=>Scaffold(appBar:AppBar(title:const Text('تقدمي')),body:const Padding(padding:EdgeInsets.all(20),child:ProgressWidget(value:0))); }

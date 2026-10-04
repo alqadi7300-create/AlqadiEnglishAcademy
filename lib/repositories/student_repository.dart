@@ -1,0 +1,1 @@
+import '../models/student_model.dart'; import '../services/firestore_service.dart'; class StudentRepository { final FirestoreService service; StudentRepository({FirestoreService? service}):service=service??FirestoreService(); Stream<List<StudentModel>> watch()=>service.stream('students').map((s)=>s.docs.map((d)=>StudentModel.fromMap(d.id,d.data())).toList()); }

@@ -1,1 +1,1 @@
-
+class BookModel { final String id,courseId,title,storageKey; final int sizeBytes; const BookModel({required this.id,required this.courseId,required this.title,required this.storageKey,this.sizeBytes=0}); Map<String,dynamic> toMap()=>{'courseId':courseId,'title':title,'storageKey':storageKey,'sizeBytes':sizeBytes}; factory BookModel.fromMap(String id,Map<String,dynamic> m)=>BookModel(id:id,courseId:m['courseId']??'',title:m['title']??'',storageKey:m['storageKey']??'',sizeBytes:m['sizeBytes']??0); }

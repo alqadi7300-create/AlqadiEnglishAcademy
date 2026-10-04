@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class CustomButton extends StatelessWidget { final String label; final VoidCallback? onPressed; const CustomButton({super.key,required this.label,this.onPressed}); @override Widget build(BuildContext c)=>SizedBox(width:double.infinity,child:FilledButton(onPressed:onPressed,child:Text(label))); }

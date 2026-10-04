@@ -1,1 +1,1 @@
-
+class LevelModel { final String id,name,description; const LevelModel({required this.id,required this.name,this.description=''}); Map<String,dynamic> toMap()=>{'name':name,'description':description}; factory LevelModel.fromMap(String id,Map<String,dynamic> m)=>LevelModel(id:id,name:m['name']??'',description:m['description']??''); }

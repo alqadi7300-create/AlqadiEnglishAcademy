@@ -1,0 +1,101 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read: if isAdmin() || isOwner(uid);
+      allow create: if isOwner(uid)
+        && request.resource.data.role == 'student'
+        && request.resource.data.email == request.auth.token.email;
+      allow update: if isAdmin()
+        || (isOwner(uid) && request.resource.data.role == resource.data.role);
+      allow delete: if isAdmin();
+    }
+
+    match /students/{uid} {
+      allow read: if isAdmin() || isOwner(uid);
+      allow create: if isOwner(uid) && request.resource.data.email == request.auth.token.email;
+      allow update: if isAdmin() || isOwner(uid);
+      allow delete: if isAdmin();
+    }
+
+    match /courses/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /levels/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /lessons/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /books/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /exams/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /questions/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /enrollments/{id} {
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.studentId == request.auth.uid);
+      allow create: if isAdmin()
+        || (signedIn() && request.resource.data.studentId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+
+    match /results/{id} {
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.studentId == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.studentId == request.auth.uid
+        && request.resource.data.score is number
+        && request.resource.data.percentage is number;
+      allow update, delete: if isAdmin();
+    }
+
+    match /progress/{id} {
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.studentId == request.auth.uid);
+      allow create: if isAdmin()
+        || (signedIn() && request.resource.data.studentId == request.auth.uid);
+      allow update: if isAdmin()
+        || (signedIn()
+          && resource.data.studentId == request.auth.uid
+          && request.resource.data.studentId == resource.data.studentId);
+      allow delete: if isAdmin();
+    }
+
+    match /certificates/{id} {
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.studentId == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /settings/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+  }
+}

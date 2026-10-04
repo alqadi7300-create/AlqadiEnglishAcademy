@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Extract project ZIP
         shell: bash
@@ -31,20 +33,40 @@ jobs:
 
           unzip -q -o "$ZIP_FILE" -d .project_extract
 
-          echo "Extracted files:"
-          find .project_extract -maxdepth 3 -type f | sort | head -200
+          echo "Extracting project files..."
 
           cp -a .project_extract/. .
 
           rm -rf .project_extract
           rm -f "$ZIP_FILE"
+          rm -f README-1.md
+          rm -f README-2.md
 
-          rm -f README-1.md README-2.md
+          echo "Project extraction completed."
 
-          echo "Final project root:"
-          ls -la
+          echo "Checking project structure..."
 
-      - name: Commit extracted project
+          test -f pubspec.yaml
+          test -d lib
+          test -d assets
+          test -d firebase
+          test -d test
+
+          echo "Project structure OK."
+
+          echo "Repository files:"
+          find lib -maxdepth 3 -type f | sort | head -300
+
+      - name: Remove nested workflow before commit
+        shell: bash
+        run: |
+          set -e
+
+          rm -f .github/workflows/build-apk.yml
+
+          echo "Nested build workflow removed temporarily."
+
+      - name: Commit project
         shell: bash
         run: |
           set -e
@@ -59,5 +81,11 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Extract AlqadiEnglishAcademy project"
-          git push
+          git commit -m "Install AlqadiEnglishAcademy project"
+
+      - name: Push project
+        shell: bash
+        run: |
+          set -e
+
+          git push origin HEAD:main

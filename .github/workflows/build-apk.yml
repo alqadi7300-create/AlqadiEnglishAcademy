@@ -27,6 +27,52 @@ jobs:
       - name: Check Flutter
         run: flutter --version
 
+      - name: Create Android platform if missing
+        shell: bash
+        run: |
+          set -e
+
+          if [ ! -d "android" ]; then
+            echo "Android folder is missing."
+            echo "Creating Android platform..."
+            flutter create \
+              --platforms=android \
+              --org com.alqadi.english \
+              --project-name alqadi_english_academy \
+              .
+          else
+            echo "Android folder already exists."
+          fi
+
+          echo "Checking Android project..."
+
+          if [ -f "android/app/build.gradle" ]; then
+            echo "Groovy Android Gradle project detected."
+          elif [ -f "android/app/build.gradle.kts" ]; then
+            echo "Kotlin DSL Android Gradle project detected."
+          else
+            echo "ERROR: Android Gradle files were not created."
+            find android -maxdepth 3 -type f | sort || true
+            exit 1
+          fi
+
+      - name: Configure Android SDK
+        shell: bash
+        run: |
+          set -e
+
+          if [ -f "android/app/build.gradle" ]; then
+            sed -i 's/minSdkVersion[[:space:]]*[0-9]*/minSdkVersion 23/g' android/app/build.gradle || true
+            sed -i 's/minSdk[[:space:]]*=[[:space:]]*[0-9]*/minSdk = 23/g' android/app/build.gradle || true
+          fi
+
+          if [ -f "android/app/build.gradle.kts" ]; then
+            sed -i 's/minSdk[[:space:]]*=[[:space:]]*[0-9]*/minSdk = 23/g' android/app/build.gradle.kts || true
+          fi
+
+          echo "Android configuration:"
+          find android/app -maxdepth 2 -type f | sort
+
       - name: Get dependencies
         run: flutter pub get
 
@@ -48,6 +94,8 @@ jobs:
 
           if [ ! -f "$APK" ]; then
             echo "ERROR: APK was not created."
+            echo "Searching for generated APK files..."
+            find build -type f -name "*.apk" -print || true
             exit 1
           fi
 

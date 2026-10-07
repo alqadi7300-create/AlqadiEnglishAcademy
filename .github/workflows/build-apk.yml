@@ -57,6 +57,13 @@ jobs:
           fi
           grep -R "applicationId\|namespace" android/app/build.gradle.kts
 
+          # Install the academy identity icon into the generated Android project.
+          mkdir -p android/app/src/main/res/drawable
+          cp tooling/ic_academy.xml android/app/src/main/res/drawable/ic_academy.xml
+          if [ -f android/app/src/main/AndroidManifest.xml ]; then
+            sed -i 's#android:icon="@mipmap/ic_launcher"#android:icon="@drawable/ic_academy"#' android/app/src/main/AndroidManifest.xml
+          fi
+
       - name: Get dependencies
         run: flutter pub get
 

@@ -44,6 +44,18 @@ jobs:
         run: |
           rm -rf android
           flutter create --platforms=android --project-name alqadi_english_academy .
+          # Firebase is registered for this exact Android application id.
+          find android -type f \( -name '*.kt' -o -name '*.kts' -o -name '*.xml' \) -print0 | xargs -0 sed -i 's/com\.example\.alqadi_english_academy/com.alqadi.englishacademy/g'
+          if [ -f android/app/build.gradle.kts ]; then
+            sed -i 's/namespace = "com\.example\.alqadi_english_academy"/namespace = "com.alqadi.englishacademy"/' android/app/build.gradle.kts
+            sed -i 's/applicationId = "com\.example\.alqadi_english_academy"/applicationId = "com.alqadi.englishacademy"/' android/app/build.gradle.kts
+          fi
+          if [ -f android/app/src/main/kotlin/com/example/alqadi_english_academy/MainActivity.kt ]; then
+            mkdir -p android/app/src/main/kotlin/com/alqadi/englishacademy
+            mv android/app/src/main/kotlin/com/example/alqadi_english_academy/MainActivity.kt android/app/src/main/kotlin/com/alqadi/englishacademy/MainActivity.kt
+            rm -rf android/app/src/main/kotlin/com/example
+          fi
+          grep -R "applicationId\|namespace" android/app/build.gradle.kts
 
       - name: Get dependencies
         run: flutter pub get

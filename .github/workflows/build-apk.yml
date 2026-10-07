@@ -35,6 +35,9 @@ jobs:
           flutter --version
           java -version
 
+      - name: Ensure Android platform files
+        run: flutter create --platforms=android --project-name alqadi_english_academy .
+
       - name: Get dependencies
         run: flutter pub get
 

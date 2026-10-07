@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 import 'core/theme/app_theme.dart';
-import 'screens/auth/login_page.dart';
+import 'screens/splash/splash_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +13,7 @@ Future<void> main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (_) {
-    // Keep the UI buildable/testable if Firebase configuration is unavailable.
+    // Keep the app launchable if Firebase is temporarily unavailable.
   }
 
   runApp(const AlqadiEnglishAcademyApp());
@@ -28,7 +28,12 @@ class AlqadiEnglishAcademyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'أكاديمية القاضي للغة الإنجليزية',
       theme: AppTheme.light(),
-      home: const LoginPage(),
+      locale: const Locale('ar'),
+      supportedLocales: const [
+        Locale('ar'),
+        Locale('en'),
+      ],
+      home: const SplashPage(),
     );
   }
 }

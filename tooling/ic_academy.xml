@@ -9,6 +9,20 @@
     <path
         android:fillColor="#082B63"
         android:pathData="M10,10h88a12,12 0,0 1,12 12v64a12,12 0,0 1,-12 12h-88a12,12 0,0 1,-12 -12v-64a12,12 0,0 1,12 -12z" />
+    <!-- Yemen flag: red, white, black -->
+    <path
+        android:fillColor="#CE1126"
+        android:pathData="M12,15h20v4h-20z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,19h20v4h-20z" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M12,23h20v4h-20z" />
+    <path
+        android:fillColor="#F5B82E"
+        android:pathData="M12,15h2v12h-2z" />
+
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M23,67 C32,58 43,55 54,61 C65,55 76,58 85,67 L85,82 C75,75 65,74 54,80 C43,74 33,75 23,82z" />

@@ -5,6 +5,8 @@ void main() {
   testWidgets('application renders academy splash', (tester) async {
     await tester.pumpWidget(const AlqadiEnglishAcademyApp());
     await tester.pump();
-    expect(find.text('أكاديمية القاضي للغة الإنجليزية'), findsOneWidget);
+
+    expect(find.text('منصة القاضي'), findsOneWidget);
+    expect(find.text('الأكاديمية الإنجليزية'), findsOneWidget);
   });
 }
